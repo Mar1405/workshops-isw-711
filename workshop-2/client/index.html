@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 1 - Consume API</title>
+  <script>
+    const completed = (response) => {
+      const data = JSON.parse(response.target.responseText);
+      document.getElementById('result').innerHTML = `Tipo de Cambio Dolares ${data.TipoCompraDolares}`;
+    };
+
+    const error = () => console.log(this.responseText);
+
+    function getExchange() {
+      const ajaxRequest = new XMLHttpRequest(); //AJAX
+      ajaxRequest.addEventListener("load", completed);
+      ajaxRequest.addEventListener("error", error);
+      ajaxRequest.open("GET", "http://localhost:3001/tipocambio");
+      ajaxRequest.send();
+    }
+  </script>
+</head>
+
+<body>
+  <button onclick="getExchange();">Tipo de Cambio</button>
+  <h3>Results:</h3>
+  <div id="result"></div>
+
+  <select name="countries" id="countries">
+  </select>
+
+  <script>
+    const ajaxRequest = new XMLHttpRequest(); //AJAX
+    ajaxRequest.addEventListener("load", (e) => {
+
+      const countries = JSON.parse(e.target.responseText);
+      let optionsHtml = "";
+      countries.forEach(country => {
+        optionsHtml += `<option value="${country.cca3}">${country.name.common}</option>`;
+      });
+      document.getElementById("countries").innerHTML = optionsHtml;
+    });
+    ajaxRequest.addEventListener("error", ()=>{});
+    ajaxRequest.open("GET", "https://restcountries.com/v3.1/all");
+    ajaxRequest.send();
+  </script>
+</body>
+
+</html>
