@@ -1,4 +1,4 @@
-const Course = require("../models/courseModel");
+/*const Course = require("../models/courseModel");
 
 /**
  * Creates a course
@@ -6,7 +6,8 @@ const Course = require("../models/courseModel");
  * @param {*} req
  * @param {*} res
  */
-const coursePost = async (req, res) => {
+
+/**const coursePost = async (req, res) => {
   let course = new Course(req.body);
   await course.save()
     .then(course => {
@@ -28,10 +29,10 @@ const coursePost = async (req, res) => {
 /**
  * Get all courses or one
  *
- * @param {*} req
- * @param {*} res
+ * /**@param {*} req
+ * /**@param {*} res
  */
-const courseGet = (req, res) => {
+/**const courseGet = (req, res) => {
   // if an specific teacher is required
   if (req.query && req.query.id) {
     Course.findById(req.query.id).populate('teacher')
@@ -59,4 +60,4 @@ const courseGet = (req, res) => {
 module.exports = {
   coursePost,
   courseGet
-}
+}**/

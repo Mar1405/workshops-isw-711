@@ -1,12 +1,12 @@
-const Teacher = require("../models/teacherModel");
+/**const Teacher = require("../models/teacherModel");
 
 /**
  * Creates a teacher
  *
- * @param {*} req
- * @param {*} res
+ * /**@param {*} req
+ * /**@param {*} res
  */
-const teacherPost = async (req, res) => {
+/**const teacherPost = async (req, res) => {
   let teacher = new Teacher();
 
   teacher.first_name = req.body.first_name;
@@ -42,10 +42,10 @@ const teacherPost = async (req, res) => {
 /**
  * Get all teachers
  *
- * @param {*} req
- * @param {*} res
+ * /**@param {*} req
+ * /**@param {*} res
  */
-const teacherGet = (req, res) => {
+/**const teacherGet = (req, res) => {
   // if an specific teacher is required
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id)
@@ -73,10 +73,10 @@ const teacherGet = (req, res) => {
 /**
  * Updates a teacher
  *
- * @param {*} req
- * @param {*} res
+ * /**@param {*} req
+ * /**@param {*} res
  */
-const teacherPatch = (req, res) => {
+/**const teacherPatch = (req, res) => {
   // get teacher by id
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id, function (err, teacher) {
@@ -114,10 +114,10 @@ const teacherPatch = (req, res) => {
 /**
  * Deletes a teacher
  *
- * @param {*} req
- * @param {*} res
+ * /**@param {*} req
+ * /**@param {*} res
  */
- const teacherDelete = (req, res) => {
+ /**const teacherDelete = (req, res) => {
   // get teacher by id
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id, function (err, teacher) {
@@ -150,4 +150,4 @@ module.exports = {
   teacherPost,
   teacherPatch,
   teacherDelete
-}
+}*/

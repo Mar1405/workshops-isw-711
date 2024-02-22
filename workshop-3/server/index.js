@@ -1,45 +1,36 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const careerRoutes = require('./routes/careerRoutes');
+
 const app = express();
-// database connection
-const mongoose = require("mongoose");
-const db = mongoose.connect("mongodb://localhost:27017/teachers", {
+
+mongoose.connect('mongodb://localhost:27017/careersdb', {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
   useFindAndModify: false,
-  useUnifiedTopology: true
 });
 
-const {
-  teacherPatch,
-  teacherPost,
-  teacherGet,
-  teacherDelete
-} = require("./controllers/teacherController.js");
+const db = mongoose.connection;
 
-const {
-  coursePost, courseGet
-} = require("./controllers/courseController.js");
+db.on('error', (err) => {
+  console.error('Error de conexión a MongoDB:', err);
+});
 
-// parser for the request body (required for the POST and PUT methods)
-const bodyParser = require("body-parser");
+db.once('open', () => {
+  console.log('Conexión exitosa a MongoDB');
+});
+
 app.use(bodyParser.json());
+app.use(cors());
 
-// check for cors
-const cors = require("cors");
-app.use(cors({
-  domains: '*',
-  methods: "*"
-}));
+app.use('/api/careers', careerRoutes);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
-// listen to the task request
-app.get("/api/teachers", teacherGet);
-app.post("/api/teachers", teacherPost);
-app.patch("/api/teachers", teacherPatch);
-app.put("/api/teachers", teacherPatch);
-app.delete("/api/teachers", teacherDelete);
-
-// course
-app.get("/api/courses", courseGet);
-app.post("/api/courses", coursePost);
-
-app.listen(3000, () => console.log(`Example app listening on port 3000!`))
