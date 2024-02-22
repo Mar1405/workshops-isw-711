@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 // database connection
 const mongoose = require("mongoose");
-const db = mongoose.connect("mongodb://127.0.0.1:27017/teachers", {
+const db = mongoose.connect("mongodb://localhost:27017/teachers", {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true
@@ -42,4 +42,4 @@ app.delete("/api/teachers", teacherDelete);
 app.get("/api/courses", courseGet);
 app.post("/api/courses", coursePost);
 
-app.listen(3001, () => console.log(`Example app listening on port 3001!`))
+app.listen(3000, () => console.log(`Example app listening on port 3000!`))
