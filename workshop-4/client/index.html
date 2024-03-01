@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manejar Carreras</title>
+</head>
+
+<body>
+  <div id="loginContainer">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+      <button type="button" onclick="login()">Login</button>
+    </form>
+  </div>
+
+  <div id="careerContainer" style="display: none;">
+    <h1>Carreras</h1>
+
+    <!-- Formulario para crear una nueva carrera -->
+    <h2>New Career</h2>
+    <form id="createForm">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre">
+      <label for="codigo">Código:</label>
+      <input type="text" id="codigo" name="codigo">
+      <label for="descripcion">Descripción:</label>
+      <input type="text" id="descripcion" name="descripcion">
+      <button type="submit">Crear Carrera</button>
+    </form>
+
+    <!-- Lista de carreras existentes -->
+    <h2>List career</h2>
+    <ul id="carrerasList"></ul>
+  </div>
+
+  <script>
+    function login() {
+      // Hardcoded login credentials for demonstration purposes
+      const hardcodedUsername = 'maria';
+      const hardcodedPassword = '123';
+
+      const enteredUsername = document.getElementById('username').value;
+      const enteredPassword = document.getElementById('password').value;
+
+      if (enteredUsername === hardcodedUsername && enteredPassword === hardcodedPassword) {
+        // Hide login container, show career container
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('careerContainer').style.display = 'block';
+
+        // Load careers after successful login
+        loadCareers();
+      } else {
+        // Handle incorrect login credentials
+        console.error('Incorrect username or password');
+      }
+    }
+    // Agregar un evento de envío al formulario de login
+    document.getElementById('loginForm').addEventListener('submit', login);
+    // Función para cargar y mostrar las carreras
+    async function loadCareers() {
+      const response = await fetch('http://localhost:3000/api/careers');
+      const data = await response.json();
+
+      const careersList = document.getElementById('careersList');
+      careersList.innerHTML = ''; // Limpiar la lista antes de agregar nuevas carreras
+
+      data.forEach(career => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+          <strong>${career.nombre}</strong> (${career.codigo}) - ${career.descripcion}
+          <button onclick="editCareer('${career._id}')">Editar</button>
+          <button onclick="deleteCareer('${career._id}')">Eliminar</button>
+        `;
+        careersList.appendChild(listItem);
+      });
+    }
+
+    // Función para enviar una solicitud POST para crear una nueva carrera
+    async function createCareer(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const data = {
+        name: form.name.value,
+        code: form.code.value,
+        description: form.description.value
+      };
+
+      const response = await fetch('http://localhost:3000/api/careers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        // Recargar la lista de carreras después de crear una nueva
+        loadCareers();
+        // Limpiar el formulario
+        form.reset();
+      } else {
+        console.error('Error al crear la carrera:', response.statusText);
+      }
+    }
+
+    // Función para enviar una solicitud DELETE para eliminar una carrera
+    async function deleteCareer(id) {
+      const response = await fetch(`http://localhost:3000/api/careers?id=${id}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        // Recargar la lista de carreras después de eliminar
+        loadCareers();
+      } else {
+        console.error('Error al eliminar la carrera:', response.statusText);
+      }
+    }
+
+    // Función para enviar una solicitud GET para editar una carrera
+    async function editCareer(id) {
+      // No está implementado en este ejemplo, puedes desarrollarlo siguiendo la lógica de las otras funciones
+      console.log('Editar carrera con ID:', id);
+    }
+
+    // Cargar las carreras al cargar la página
+    loadCareers();
+
+    // Agregar un evento de envío al formulario de creación
+    document.getElementById('createForm').addEventListener('submit', createCareer);
+  </script>
+
+  
+</body>
+
+</html>
