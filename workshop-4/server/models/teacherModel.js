@@ -1,4 +1,4 @@
-/**const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const teacher = new Schema({
@@ -8,4 +8,4 @@ const teacher = new Schema({
   age: { type: Number }
 });
 
-module.exports = mongoose.model('Teacher', teacher);*/
+module.exports = mongoose.model('Teacher', teacher);

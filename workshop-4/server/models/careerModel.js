@@ -1,9 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const careerSchema = new mongoose.Schema({
-  name: { type: String },
-  code: { type: Number },
-  description: { type: String }
+const career = new Schema({
+    name: { type: String },
+    code: { type: String },
+    description: { type: String },
+    course: {
+        type: mongoose.ObjectId,
+        ref: "Course",
+    },
 });
 
-module.exports = mongoose.model('Career', careerSchema);
+module.exports = mongoose.model("Career", career);

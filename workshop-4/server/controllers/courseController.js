@@ -1,63 +1,58 @@
-/*const Course = require("../models/courseModel");
+const courseModel = require("../models/courseModel");
 
 /**
- * Creates a course
+ * Get all courses or one
  *
  * @param {*} req
  * @param {*} res
  */
+// const courseGet = (req) => {
+//   return Course.find()
+//     .then( (course) => {
+//       console.log('here', course);
+//       return course;
+//     })
+//     .catch(err => {
+//       return { error: "Course doesnt exist" }
+//     });
+// };
 
-/**const coursePost = async (req, res) => {
-  let course = new Course(req.body);
-  await course.save()
-    .then(course => {
-      res.status(201); // CREATED
-      res.header({
-        'location': `/api/courses/?id=${course.id}`
-      });
-      res.json(course);
-    })
-    .catch( err => {
-      res.status(422);
-      console.log('error while saving the course', err);
-      res.json({
-        error: 'There was an error saving the course'
-      });
-    });
+/**
+ * Get all courses or one
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+const courseGetAll = (req, res) => {
+  return courseModel.find((error, courses) => {
+    if (error) {
+      console.log('there was an error', error);
+      return error;
+    }
+    return courses;
+  }).populate('teacher').exec();
 };
 
 /**
  * Get all courses or one
  *
- * /**@param {*} req
- * /**@param {*} res
+ * @param {*} req
+ * @param {*} res
  */
-/**const courseGet = (req, res) => {
-  // if an specific teacher is required
-  if (req.query && req.query.id) {
-    Course.findById(req.query.id).populate('teacher')
-      .then( (course) => {
-        res.json(course);
-      })
-      .catch(err => {
-        res.status(404);
-        console.log('error while queryting the course', err)
-        res.json({ error: "Course doesnt exist" })
-      });
-  } else {
-    // get all teachers
-    Course.find().populate('teacher')
-      .then( courses => {
-        res.json(courses);
-      })
-      .catch(err => {
-        res.status(422);
-        res.json({ "error": err });
-      });
-  }
+const courseSearch = (params) => {
+  return courseModel.find(
+    {
+      "name": { $regex: `${params.name}`, $options: 'i' }
+    }, (error, courses) => {
+    if (error) {
+      console.log('there was an error', error);
+      return error;
+    }
+    return courses;
+  }).populate('teacher').exec();
 };
 
 module.exports = {
-  coursePost,
-  courseGet
-}**/
+  courseGetAll,
+  courseSearch
+}

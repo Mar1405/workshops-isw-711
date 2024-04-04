@@ -1,12 +1,12 @@
-/**const Teacher = require("../models/teacherModel");
+const Teacher = require("../models/teacherModel");
 
 /**
  * Creates a teacher
  *
- * /**@param {*} req
- * /**@param {*} res
+ * @param {*} req
+ * @param {*} res
  */
-/**const teacherPost = async (req, res) => {
+const teacherPost = async (req, res) => {
   let teacher = new Teacher();
 
   teacher.first_name = req.body.first_name;
@@ -14,9 +14,11 @@
   teacher.cedula = req.body.cedula;
   teacher.age = req.body.age;
 
+  // validates if the request includes at least the name nad last name
   if (teacher.first_name && teacher.last_name) {
     await teacher.save()
       .then(data => {
+        // teacher was created
         res.status(201); // CREATED
         res.header({
           'location': `/api/teachers/?id=${data.id}`
@@ -42,10 +44,10 @@
 /**
  * Get all teachers
  *
- * /**@param {*} req
- * /**@param {*} res
+ * @param {*} req
+ * @param {*} res
  */
-/**const teacherGet = (req, res) => {
+const teacherGet = (req, res) => {
   // if an specific teacher is required
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id)
@@ -73,10 +75,10 @@
 /**
  * Updates a teacher
  *
- * /**@param {*} req
- * /**@param {*} res
+ * @param {*} req
+ * @param {*} res
  */
-/**const teacherPatch = (req, res) => {
+const teacherPatch = (req, res) => {
   // get teacher by id
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id, function (err, teacher) {
@@ -114,10 +116,10 @@
 /**
  * Deletes a teacher
  *
- * /**@param {*} req
- * /**@param {*} res
+ * @param {*} req
+ * @param {*} res
  */
- /**const teacherDelete = (req, res) => {
+ const teacherDelete = (req, res) => {
   // get teacher by id
   if (req.query && req.query.id) {
     Teacher.findById(req.query.id, function (err, teacher) {
@@ -150,4 +152,4 @@ module.exports = {
   teacherPost,
   teacherPatch,
   teacherDelete
-}*/
+}
